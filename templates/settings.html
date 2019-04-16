@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/default.css" type="text/css">
+    <link rel="stylesheet" href="/static/form.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>1dragosh - SEO platform</title>
+</head>
+<body>
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/keywords">Keywords</a>
+    <a href="/start_report">Start a new crawl</a>
+    <a class="active" href="/settings">Settings</a>
+    <a href="/history_list">History List</a>
+    <a href="/manual_search">Manual Search</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<br><br>
+<div class="flexi">
+    <div class="container form-top">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+                <div class="panel panel-danger">
+                    <form action="/edit_settings" method="post">
+                    <div class="panel-body">
+                             <div class="form-group">
+                                <label>Google Result Pages</label>
+                                <input type="text" name="pages" required class="form-control" value="{{ pages }}">
+                            </div>
+                        <hr>
+                            <div class="form-group">
+                                <label>Alexa Rank</label>
+                                <input type="text" name="alexa_rank" required class="form-control"
+                                       value="{{ alexa_rank_ph }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Alexa Color 0-200</label>
+                                <input type="text" name="alexa200" required class="form-control" value="{{ color[0] }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Alexa Color 200-400</label>
+                                <input type="text" name="alexa400" required class="form-control" value="{{ color[1] }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Alexa Color 400-600</label>
+                                <input type="text" name="alexa600" required class="form-control" value="{{ color[2] }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Alexa Color 600-1mil</label>
+                                <input type="text" name="alexa800" required class="form-control" value="{{ color[3] }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Alexa Color over 1 mil</label>
+                                <input type="text" name="alexa1000" required class="form-control"
+                                       value="{{ color[4] }}">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container form-top">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+                <div class="panel panel-danger">
+                    <div class="panel-body">
+                        <label>FRIENDS LIST</label>
+                        <hr>
+                        <div class="form-group">
+                            <textarea name="friends" rows="22" required class="form-control">{%- for x in friends_ph -%}
+                                {{ x + "\r\n" }}{% endfor %}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container form-top">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+                <div class="panel panel-danger">
+                    <div class="panel-body">
+                        <label>COMPETITORS</label>
+                        <hr>
+                        <div class="form-group">
+                            <textarea name="competitors" rows="22" required
+                                      class="form-control">{%- for x in competitors_ph -%}
+                                {{ x + "\r\n" }}{% endfor %}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <button class="btn btn-primary btn-large btn-block"
+            type="submit">Save
+    </button>
+</div>
+</form>
+</body>
+</html>

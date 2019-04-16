@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/default.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>1dragosh - SEO platform</title>
+    <style>tr:hover {
+        background-color: #f5f5f5;
+    }</style>
+</head>
+<body>
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/keywords">Keywords</a>
+    <a href="/start_report">Start a new crawl</a>
+    <a href="/settings">Settings</a>
+    <a href="/history_list">History List</a>
+    <a href="/manual_search">Manual Search</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div>
+
+    <div>
+
+        <div>
+            <div class="panel panel-danger">
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <div align="left">
+                            <a class="btn btn-primary btn-large btn-block" style="width: 200px;"
+                               onclick="window.history.back();">Go back
+                            </a>
+                        </div>
+                        <h1 style="text-align: center">{{ item['date'] }}</h1>
+                        <hr>
+                        <div class="info-desc">
+                            Group: <b>{{ item['group_name'] }}</b><br>
+                            Method: <b>{{ item['method'] }}</b><br>
+                            {% if item['keywords'] %}
+                                Keywords: {% for x in item['keywords'] %}
+                                {% if not loop.last %}
+                                    <b> {{ x }}</b>,
+                                {% else %}
+                                    <b>{{ x }}</b>
+                                {% endif %}
+                            {% endfor %}&nbsp;
+                            {% endif %}
+                        </div>
+                        <a class="btn btn-raised btn-lg btn-warning"
+                           href="/best_result_history?itemid={{ item['_id'] }}">Best Result</a>
+                        <hr>
+                        <tr class="active">
+                            <td>Domain</td>
+                            <td style=" overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word; -ms-hyphens: auto; -moz-hyphens: auto; -webkit-hyphens: auto; hyphens: auto;">URL</td>
+                            <td>Google Rank</td>
+                            <td>Alexa Rank</td>
+                            <td>Malware Status</td>
+                            <td>Ranked Country</td>
+                            <td>External Backlinks</td>
+                            <td>Friends</td>
+                            <td>Competitors</td>
+                            <td>Country Rank</td>
+                            <td>Keyword</td>
+                        </tr>
+                        {% for x in item['report'] %}
+                            <tr onclick="window.location='/get_details?main_id={{ item['_id'] }}&id={{ x["_id"] }}'">
+                                <td>{{ x['domain'] }}</td>
+                                <td style=" overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word; -ms-hyphens: auto; -moz-hyphens: auto; -webkit-hyphens: auto; hyphens: auto;">{{ x['url'] }}</td>
+                                <td>
+                                    {% if 'ranking' in x %}
+                                        {{ x['ranking'] }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+
+                                </td>
+                                <td style="color: {% if x['alexa_rank']|int <= 200000 %}
+                                    {{ color[0] }}{% elif x['alexa_rank']|int > 200000 and x['alexa_rank']|int <= 400000 %}
+                                    {{ color[1] }}{% elif x['alexa_rank']|int > 400000 and x['alexa_rank']|int <= 600000 %}
+                                    {{ color[2] }} {% elif x['alexa_rank']|int > 600000 and x['alexa_rank']|int <= 1000000 %}
+                                    {{ color[3] }} {% else %} {{ color[4] }}{% endif %}">{{ x['alexa_rank'] }}</td>
+                                {% if x['malware_status'] == 'Clean' %}
+                                    <td style="color: green;">{{ x['malware_status'] }}</td>
+                                {% else %}
+                                    <td style="color: red;">{{ x['malware_status'] }}</td>
+                                {% endif %}
+                                <td>{{ x['ranked_country'] }}</td>
+                                <td>{{ x['external_links'] }}</td>
+                                <td>{{ x['friends_backlinks'] }}</td>
+                                <td {% if x['backlinks_competitor']|int > 0 %}style="background-color: #ffa800{% endif %}">{{ x['backlinks_competitor'] }}</td>
+                                <td>{{ x['country_rank'] }}</td>
+                                <td>
+                                    {% if 'keyword' in x %}
+                                        {{ x['keyword'] }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

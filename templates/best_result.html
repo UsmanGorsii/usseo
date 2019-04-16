@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/default.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>1dragosh - SEO platform</title>
+    <style>tr:hover {
+        background-color: #f5f5f5;
+    }</style>
+</head>
+<body>
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/keywords">Keywords</a>
+    <a href="/start_report">Start a new crawl</a>
+    <a href="/settings">Settings</a>
+    <a href="/history_list">History List</a>
+    <a href="/manual_search">Manual Search</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div>
+    <div>
+        <div>
+            <div class="panel panel-danger">
+                <div class="panel-body">
+                    <div align="left">
+                        <a class="btn btn-primary btn-large btn-block" style="width: 200px;"
+                           onclick="window.history.back();">Go back
+                        </a>
+                    </div>
+                    <br>
+                    <table class="table table-bordered">
+                        <tr class="active">
+                            <td style=" overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word; -ms-hyphens: auto; -moz-hyphens: auto; -webkit-hyphens: auto; hyphens: auto;">URL</td>
+                            <td>Google Rank</td>
+                            <td>Alexa Rank</td>
+                            <td>Ranked Country</td>
+                            <td>External Backlinks</td>
+                            <td>Country Rank</td>
+                            <td>Keyword</td>
+                        </tr>
+                        {% for x in items|sort(attribute='alexa_rank', reverse = False) %}
+                            <tr onclick="window.location='/get_details?main_id={{ mainid }}&id={{ x["_id"] }}'">
+                                <td style=" overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-all; word-break: break-word; -ms-hyphens: auto; -moz-hyphens: auto; -webkit-hyphens: auto; hyphens: auto;">{{ x['url'] }}</td>
+                                <td>
+                                    {% if 'ranking' in x %}
+                                        {{ x['ranking'] }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+
+                                </td>
+                                <td style="color: {% if x['alexa_rank']|int <= 200000 %}
+                                    {{ color[0] }}{% elif x['alexa_rank']|int > 200000 and x['alexa_rank']|int <= 400000 %}
+                                    {{ color[1] }}{% elif x['alexa_rank']|int > 400000 and x['alexa_rank']|int <= 600000 %}
+                                    {{ color[2] }} {% elif x['alexa_rank']|int > 600000 and x['alexa_rank']|int <= 1000000 %}
+                                    {{ color[3] }} {% else %} {{ color[4] }}{% endif %}">{{ x['alexa_rank'] }}</td>
+
+                                <td>{{ x['ranked_country'] }}</td>
+                                <td>{{ x['external_links'] }}</td>
+                                <td>{{ x['country_rank'] }}</td>
+                                <td>
+                                    {% if 'keyword' in x %}
+                                        {{ x['keyword'] }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

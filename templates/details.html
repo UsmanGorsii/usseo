@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/default.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>1dragosh - SEO platform</title>
+</head>
+<body>
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/keywords">Keywords</a>
+    <a href="/start_report">Start a new crawl</a>
+    <a href="/settings">Settings</a>
+    <a href="/history_list">History List</a>
+    <a href="/manual_search">Manual Search</a>
+    <a href="/logout">Logout</a>
+</div>
+<br>
+<div align="center">
+    <a class="btn btn-primary btn-large btn-block" style="width: 200px;"
+       onclick="window.history.back();">Go back
+    </a>
+</div>
+<br>
+<div class="container form-top">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+            <div class="panel panel-danger">
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <tr class="active">
+                            <h1>Link info:</h1>
+                        <tr>
+                            <th>URL:</th>
+                            <td>{{ item['url'] }}</td>
+                        </tr>
+                        <tr>
+                            <th>Domain:</th>
+                            <td>{{ item['domain'] }}</td>
+                        </tr>
+                        <tr>
+                            {% if item['keyword'] %}
+                                <th>Keyword:</th>
+                                <td>{{ item['keyword'] }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>External Links:</th>
+                            <td>{{ item['external_links'] }}</td>
+                        </tr>
+                        <tr>
+                            <th>Malware Status:</th>
+                            {% if item['malware_status'] == 'Clean' %}
+                                <td style="color: green;">{{ item['malware_status'] }}</td>
+                            {% else %}
+                                <td style="color: red;">{{ item['malware_status'] }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>Total Friends backlinks:</th>
+                            <td>{{ item['friends_backlinks'] }}</td>
+                        </tr>
+                        <tr>
+                            <th>Total Competitor backlinks:</th>
+                            <td>{{ item['backlinks_competitor'] }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container form-top">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+            <div class="panel panel-danger">
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <tr class="active">
+
+                            <h1>Rankings:</h1>
+                        <tr>
+                            {% if 'ranking' in item %}
+                                <th>Google Rank:</th>
+                                <td>{{ item['ranking'] }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>Alexa Rank:</th>
+                            <td style="color: {% if item['alexa_rank']|int <= 200000 %}
+                                {{ color[0] }}{% elif item['alexa_rank']|int > 200000 and item['alexa_rank']|int <= 400000 %}
+                                {{ color[1] }}{% elif item['alexa_rank']|int > 400000 and item['alexa_rank']|int <= 600000 %}
+                                {{ color[2] }} {% elif item['alexa_rank']|int > 600000 and item['alexa_rank']|int <= 1000000 %}
+                                {{ color[3] }} {% else %} {{ color[4] }}{% endif %}">{{ item['alexa_rank'] }}</td>
+                        </tr>
+                        <tr>
+                            <th>Alexa Ranked Country:</th>
+                            <td>{{ item['ranked_country'] }}</td>
+                        </tr>
+                        <tr>
+                            <th>Alexa Country Rank:</th>
+                            <td>{{ item['country_rank'] }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% if item['pageinfourls'] != [] %}
+    {% if item['pageinfourls'][0]['friends'] != [] %}
+        <div class="container form-top">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <tr class="active">
+                                    <br><br>
+                                    <h1>Friends</h1>
+                                <tr>
+                                    <td>Friends</td>
+                                    <td>Count</td>
+                                </tr>
+                                <tr>
+                                    {% for x in item['pageinfourls'][0]['friends'] %}
+                                        <td>{{ x['keyword'] }}</td><br>
+                                        <td>{{ x['backlinks'] }}</td>
+                                    {% endfor %}
+
+
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+{% if item['pageinfourls'] != [] %}
+    {% if item['pageinfourls'][0]['competitors'] != [] %}
+        <div class="container form-top">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <tr class="active">
+                                    <h1>Competitors</h1>
+                                <tr>
+                                    <td>Competitor</td>
+                                    <td>Count</td>
+                                </tr>
+                                <tr>
+
+                                    {% for x in item['pageinfourls'][0]['competitors'] %}
+                                        <td>{{ x['keyword_competitor'] }}</td><br>
+                                        <td>{{ x['backlinks'] }}</td>
+                                    {% endfor %}
+
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+</body>
+</html>

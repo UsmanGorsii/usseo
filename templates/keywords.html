@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/default.css" type="text/css">
+    <link rel="stylesheet" href="/static/form.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>1dragosh - SEO platform</title>
+</head>
+<body>
+<div class="topnav">
+    <a href="/">Home</a>
+    <a class="active" href="/keywords">Keywords</a>
+    <a href="/start_report">Start a new crawl</a>
+    <a href="/settings">Settings</a>
+    <a href="/history_list">History List</a>
+    <a href="/manual_search">Manual Search</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<br><br>
+<div class="container form-top">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+            <div class="panel panel-danger">
+                <div class="panel-body">
+                    <form action="/add_kws" method="post">
+                        <div class="form-group">
+                            <label>Group Name</label>
+                            <input type="text" name="group_name" required class="form-control" placeholder="Group name">
+                        </div>
+                        <div class="form-group">
+                            <label>Keywords</label>
+                            <textarea rows="3" required name="keywords" class="form-control"
+                                      placeholder="Keywords line by line"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-large btn-block"
+                                    type="submit">Add
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+
+
+<div class="container form-top">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+            <div class="panel panel-danger">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Groups:</label>
+                        <hr>
+                        {%- for x in kwgroups -%}
+                            <font size="3"><b>{{ x.upper() }}</b></font>
+                            <div class="buttons-end"> [ <a href="/get_keywords?group={{ x }}">EDIT</a> ] - [
+                                <a href="/delkwgroup?group={{ x }}">DELETE</a> ]
+                            </div><br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
